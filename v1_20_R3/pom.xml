@@ -16,9 +16,9 @@
         <nms.version>v1_20_R3</nms.version>
     </properties>
 
-    <artifactId>supersign-${nms.version}</artifactId>
+    <artifactId>supersign-v1_20_R3</artifactId>
     <packaging>jar</packaging>
-    <name>SuperSign-${nms.version}</name>
+    <name>SuperSign-v1_20_R3</name>
 
     <dependencies>
         <dependency>
