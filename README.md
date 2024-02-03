@@ -1,5 +1,9 @@
 Wow coooooo 😮😎
 
+`
+1.17 - 1.20.4
+`
+
 [![](https://jitpack.io/v/Cyrzuu/SuperSign.svg)](https://jitpack.io/#Cyrzuu/SuperSign)
 
 **Maven:**
