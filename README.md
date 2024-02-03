@@ -24,6 +24,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.SuperSign:SuperUtils:1.0'
+    implementation 'com.github.Cyrzuu:SuperSign:1.0'
 }
 ```
