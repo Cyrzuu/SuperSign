@@ -20,15 +20,13 @@ public class SuperSign {
     @Nullable
     private static SuperSign superSign;
 
-    @NotNull
-    public static SuperSign registerSuperSign(@NotNull JavaPlugin instance) {
+    public static void registerSuperSign(@NotNull JavaPlugin instance) {
         if(superSign != null) {
-            return superSign;
+            return;
         }
 
         SuperSign.ID = instance.getName() + "_" + "sign-gui";
         SuperSign.superSign = new SuperSign(instance);
-        return SuperSign.superSign;
     }
 
     public static SuperSignBuilder build(@NotNull Player player) {
