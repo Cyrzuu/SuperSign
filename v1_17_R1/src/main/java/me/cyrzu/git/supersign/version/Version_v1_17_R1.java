@@ -89,7 +89,7 @@ public class Version_v1_17_R1 implements VersionHandler {
         Block block = player.getLocation().getBlock();
         Location location = block.getLocation();
         final int locY = location.getBlockY();
-        location.setY(locY > 5 ? locY - 4 : locY + 4);
+        location.setY(locY >= 5 ? locY - 4 : locY + 4);
 
         player.sendBlockChange(location, signBuilder.getColorSign().getBlockData());
         BlockPosition blockPosition = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
