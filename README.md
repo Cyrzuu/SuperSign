@@ -70,7 +70,7 @@ public final class Class extends JavaPlugin {
                         target.sendMessage("%s ping you!".formatted(player.getName()));
                         target.playSound(target.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 2f);
                     })
-                    .setLines(null, "^".repeat(15), "Set username")
+                    .setLines(null, "^".repeat(16), "Set username")
                     .setColorSign(ColorSign.MANGROVE)
                     .run();
 
