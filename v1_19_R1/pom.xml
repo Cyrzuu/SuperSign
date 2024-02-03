@@ -16,9 +16,9 @@
         <nms.version>v1_19_R1</nms.version>
     </properties>
 
-    <artifactId>supersign-${nms.version}</artifactId>
+    <artifactId>supersign-v1_19_R1</artifactId>
     <packaging>jar</packaging>
-    <name>SuperSign-${nms.version}</name>
+    <name>SuperSign-v1_19_R1</name>
 
     <dependencies>
         <dependency>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>${minecraft.version}-R0.1-SNAPSHOT</version>
+            <version>1.19.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
