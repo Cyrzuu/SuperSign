@@ -12,6 +12,11 @@ public class Main extends JavaPlugin {
         superSign = new SuperSign(this);
     }
 
+    @Override
+    public void onDisable() {
+        superSign.uninject();
+    }
+
     public void log(@NotNull Object object, Object... args) {
         getLogger().info(object.toString().formatted(args));
     }
