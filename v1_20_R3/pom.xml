@@ -10,14 +10,15 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>supersign-v1_20_R3</artifactId>
-    <packaging>jar</packaging>
-    <name>SuperSign-v1_20_R3</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <minecraft.version>1.20.4</minecraft.version>
+        <nms.version>v1_20_R3</nms.version>
     </properties>
+
+    <artifactId>supersign-${nms.version}</artifactId>
+    <packaging>jar</packaging>
+    <name>SuperSign-${nms.version}</name>
 
     <dependencies>
         <dependency>

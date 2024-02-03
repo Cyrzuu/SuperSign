@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public interface VersionHandler {
 
@@ -14,10 +13,10 @@ public interface VersionHandler {
 
     void read(Player player, String[] lines);
 
-    void sendSign(Player player, @NotNull Consumer<String[]> function);
-
-    void uninject(@NotNull UUID uuid);
+    void sendSign(Player player, @NotNull SuperSignBuilder signBuilder);
 
     void uninject();
+
+    void uninject(@NotNull UUID uuid);
 
 }

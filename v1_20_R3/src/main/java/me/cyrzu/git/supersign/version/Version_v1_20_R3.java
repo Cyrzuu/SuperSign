@@ -1,11 +1,9 @@
 package me.cyrzu.git.supersign.version;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.MessageToMessageDecoder;
-import me.cyrzu.git.supersign.Reflex;
-import me.cyrzu.git.supersign.SignHolder;
-import me.cyrzu.git.supersign.VersionHandler;
+import me.cyrzu.git.supersign.*;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
 import net.minecraft.network.protocol.game.PacketPlayOutOpenSignEditor;
@@ -23,11 +21,10 @@ import java.util.function.Consumer;
 
 public class Version_v1_20_R3 implements VersionHandler {
 
-    private final static String ID = "sign-gui";
+    @NotNull
+    private final SuperSign superSign;
 
-    private final Map<UUID, SignHolder> holders = new HashMap<>();
-
-    private final Map<UUID, NioSocketChannel> channels = new HashMap<>();
+    private final Map<UUID, Channel> channels = new HashMap<>();
 
     private final Class<?> SERVER_COMMON_IMPL = Reflex.getClass("net.minecraft.server.network", "ServerCommonPacketListenerImpl");
     private final Class<?> NETWORK_MANAGER = Reflex.getClass("net.minecraft.network", "NetworkManager");
@@ -35,82 +32,91 @@ public class Version_v1_20_R3 implements VersionHandler {
     private final Field CONNECTION = Reflex.getField(SERVER_COMMON_IMPL, "c", true);
     private final Field CHANNEL = Reflex.getField(NETWORK_MANAGER, "n", true);
 
+    public Version_v1_20_R3(@NotNull SuperSign superSign) {
+        this.superSign = superSign;
+    }
+
     @Override
-    public void onJoin(final Player player) {
+    public void onJoin(@NotNull Player player) {
         Object handle = ((CraftPlayer) player).getHandle().c;
         Object fieldValue = Reflex.getFieldValue(handle, CONNECTION, Object.class);
-        NioSocketChannel channel = Reflex.getFieldValue(fieldValue, CHANNEL, NioSocketChannel.class);
+        Channel channel = Reflex.getFieldValue(fieldValue, CHANNEL, Channel.class);
 
-        if(channel.pipeline().get(ID) != null) {
+        if(channel.pipeline().get(SuperSign.ID) != null) {
+            channels.put(player.getUniqueId(), channel);
             return;
         }
 
-        SignPacket signPacket = new SignPacket(player, this);
-        channel.pipeline().addAfter("decoder", ID, signPacket);
+        SignPacket signPacket = new SignPacket(player, superSign);
+        channel.pipeline().addAfter("decoder", SuperSign.ID, signPacket);
         channels.put(player.getUniqueId(), channel);
     }
 
     @Override
-    public void onQuit(final Player player) {
-        holders.remove(player.getUniqueId());
+    public void onQuit(@NotNull Player player) {
+        superSign.removePlayer(player);
         uninject(player.getUniqueId());
     }
 
     @Override
     public void uninject() {
-        for (UUID uuid : channels.keySet()) {
-            uninject(uuid);
+        for (UUID uuid : List.copyOf(channels.keySet())) {
+                uninject(uuid);
         }
     }
 
     @Override
     public void uninject(@NotNull UUID uuid) {
-        NioSocketChannel channel = channels.get(uuid);
-        if(channel != null && channel.pipeline().get(ID) != null) {
-            channel.pipeline().remove(ID);
+        Channel channel = channels.get(uuid);
+        if(channel != null && channel.pipeline().get(SuperSign.ID) != null) {
+            try {
+                channel.pipeline().remove(SuperSign.ID);
+            } catch (Exception ignore) {}
             channels.remove(uuid);
         }
     }
 
     @Override
-    public void read(Player player, String[] lines) {
-        SignHolder signHolder = holders.get(player.getUniqueId());
-        if(signHolder != null) {
-            signHolder.applyPlayer(player, lines);
-            holders.remove(player.getUniqueId());
-        }
+    public void read(@NotNull Player player, @NotNull String[] lines) {
+        superSign.read(player, lines);
     }
 
     @Override
-    public void sendSign(Player player, @NotNull Consumer<String[]> function) {
+    public void sendSign(@NotNull Player player, @NotNull SuperSignBuilder signBuilder) {
         Block block = player.getLocation().getBlock();
         Location location = block.getLocation();
         final int locY = location.getBlockY();
         location.setY(locY > 5 ? locY - 4 : locY + 4);
 
-        player.sendBlockChange(location, Material.OAK_SIGN.createBlockData());
+        player.sendBlockChange(location, signBuilder.getColorSign().getBlockData());
+        BlockPosition blockPosition = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
         PlayerConnection connection = (((CraftPlayer)player).getHandle()).c;
-        PacketPlayOutOpenSignEditor packet = new PacketPlayOutOpenSignEditor(new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()), false);
-        connection.b(packet);
 
-        holders.put(player.getUniqueId(), new SignHolder(location, function));
+        player.sendSignChange(location, signBuilder.getLines());
+        PacketPlayOutOpenSignEditor openSign = new PacketPlayOutOpenSignEditor(blockPosition, true);
+        connection.b(openSign);
+
+        Consumer<@NotNull String[]> function = signBuilder.getAcceptConsumer();
+        superSign.putPlayer(player, new SignHolder(location, function == null ? l -> {} : function));
     }
 
     private static class SignPacket extends MessageToMessageDecoder<PacketPlayInUpdateSign> {
 
-        private final VersionHandler handler;
+        @NotNull
+        private final SuperSign superSign;
 
+        @NotNull
         private final Player player;
 
-        public SignPacket(Player player, VersionHandler handler) {
+        public SignPacket(@NotNull Player player, @NotNull SuperSign superSign) {
             this.player = player;
-            this.handler = handler;
+            this.superSign = superSign;
         }
 
         @Override
         protected void decode(ChannelHandlerContext ctx, PacketPlayInUpdateSign msg, List<Object> out) {
             out.add(msg);
-            handler.read(player, msg.e());
+            superSign.read(player, msg.e());
         }
     }
 

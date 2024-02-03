@@ -7,10 +7,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 public enum Version {
+    v1_17_R1("1.17/1.17.1"),
+    v1_18_R1("1.18/1.18.1"),
+    v1_18_R2("1.18.2"),
+    v1_19_R1("1.19/1.19.1/1.19.2"),
+    v1_19_R2("1.19.3"),
     v1_19_R3("1.19.4"),
-    v1_20_R1("1.20.1"),
+    v1_20_R1("1.20/1.20.1"),
     v1_20_R2("1.20.2"),
-    v1_20_R3("1.20.4"),
+    v1_20_R3("1.20.3/1.20.4"),
     UNKNOWN("Unknown");
 
     @Getter

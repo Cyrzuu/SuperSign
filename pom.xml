@@ -13,6 +13,13 @@
         <module>dist</module>
         <module>v1_20_R3</module>
         <module>v1_20_R2</module>
+        <module>v1_20_R1</module>
+        <module>v1_19_R3</module>
+        <module>v1_19_R2</module>
+        <module>v1_19_R1</module>
+        <module>v1_18_R2</module>
+        <module>v1_18_R1</module>
+        <module>v1_17_R1</module>
     </modules>
 
     <name>SuperSign</name>
@@ -31,6 +38,10 @@
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>spigot-nms-repo</id>
+            <url>https://repo.codemc.org/repository/nms/</url>
         </repository>
     </repositories>
 
