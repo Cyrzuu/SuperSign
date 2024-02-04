@@ -51,13 +51,13 @@ public class SuperSign {
     private final Map<UUID, SignHolder> holders = new HashMap<>();
 
     private SuperSign(@NotNull JavaPlugin plugin) {
-        if(Version.getCurrent() == Version.UNKNOWN) {
+        if(ServerVersion.getCurrent() == ServerVersion.UNKNOWN) {
             throw new RuntimeException("Server version doent's support this library");
         }
 
         this.instance = plugin;
 
-        Class<?> aClass = Reflex.getClass("me.cyrzu.git.supersign.version", "Version_" + Version.getCurrent());
+        Class<?> aClass = Reflex.getClass("me.cyrzu.git.supersign.version", "Version_" + ServerVersion.getCurrent());
         Constructor<?> constructor = Reflex.getConstructor(aClass, SuperSign.class);
         handler = (VersionHandler) Reflex.invokeConstructor(constructor, this);
 

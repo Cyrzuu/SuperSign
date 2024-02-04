@@ -16,7 +16,7 @@ Wow coooooo 😮😎
 <dependency>
     <groupId>com.github.Cyrzuu</groupId>
     <artifactId>SuperSign</artifactId>
-    <version>1.1</version>
+    <version>1.1<version>
 </dependency>
 ```
 

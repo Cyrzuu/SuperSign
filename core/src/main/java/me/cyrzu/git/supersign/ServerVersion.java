@@ -6,7 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public enum Version {
+public enum ServerVersion {
+    v1_16_R3("1.16.4/1.16.5"),
     v1_17_R1("1.17/1.17.1"),
     v1_18_R1("1.18/1.18.1"),
     v1_18_R2("1.18.2"),
@@ -24,26 +25,26 @@ public enum Version {
 
     @Getter
     @NotNull
-    private static final Version current = Version.getCurrentVersion();
+    private static final ServerVersion current = ServerVersion.getCurrentVersion();
 
-    Version(@NotNull String string) {
+    ServerVersion(@NotNull String string) {
         this.version = string;
     }
 
-    public static boolean isAtLeast(@NotNull Version version) {
-        return version.isCurrent() || getCurrentVersion().isHigher(version);
+    public static boolean isAtLeast(@NotNull ServerVersion serverVersion) {
+        return serverVersion.isCurrent() || getCurrentVersion().isHigher(serverVersion);
     }
 
-    public static boolean isAbove(@NotNull Version version) {
-        return getCurrentVersion().isHigher(version);
+    public static boolean isAbove(@NotNull ServerVersion serverVersion) {
+        return getCurrentVersion().isHigher(serverVersion);
     }
 
-    public boolean isHigher(@NotNull Version version) {
-        return this.ordinal() > version.ordinal();
+    public boolean isHigher(@NotNull ServerVersion serverVersion) {
+        return this.ordinal() > serverVersion.ordinal();
     }
 
-    public boolean isLower(@NotNull Version version) {
-        return this.ordinal() < version.ordinal();
+    public boolean isLower(@NotNull ServerVersion serverVersion) {
+        return this.ordinal() < serverVersion.ordinal();
     }
 
     public boolean isCurrent() {
@@ -51,11 +52,11 @@ public enum Version {
     }
 
     @NotNull
-    private static Version getCurrentVersion() {
+    private static ServerVersion getCurrentVersion() {
         String[] bukkitPackage = Bukkit.getServer().getClass().getPackage().getName().split("\\.");
         String protocol = bukkitPackage[bukkitPackage.length - 1];
 
-        return Arrays.stream(Version.values())
+        return Arrays.stream(ServerVersion.values())
                 .filter(v -> v.name().equals(protocol))
                 .findAny()
                 .orElse(UNKNOWN);

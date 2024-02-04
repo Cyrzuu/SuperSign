@@ -32,11 +32,11 @@ public enum ColorSign {
 
     @NotNull
     public BlockData getBlockData() {
-        if((this == CHERRY || this == BAMBOO) && !Version.isAtLeast(Version.v1_20_R1)) {
+        if((this == CHERRY || this == BAMBOO) && !ServerVersion.isAtLeast(ServerVersion.v1_20_R1)) {
             return Material.OAK_SIGN.createBlockData();
         }
 
-        if(this == MANGROVE && !Version.isAtLeast(Version.v1_19_R1)) {
+        if(this == MANGROVE && !ServerVersion.isAtLeast(ServerVersion.v1_19_R1)) {
             return Material.OAK_SIGN.createBlockData();
         }
 
