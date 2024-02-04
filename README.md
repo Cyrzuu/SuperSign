@@ -16,7 +16,7 @@ Wow coooooo 😮😎
 <dependency>
     <groupId>com.github.Cyrzuu</groupId>
     <artifactId>SuperSign</artifactId>
-    <version>1.1<version>
+    <version>1.2</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Cyrzuu:SuperSign:1.1'
+    implementation 'com.github.Cyrzuu:SuperSign:1.2'
 }
 ```
 \
