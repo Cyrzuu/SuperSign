@@ -31,8 +31,8 @@ public class Version_v1_16_R3 implements VersionHandler {
     private final Class<?> PLAYER_CONNECTION = Reflex.getClass("net.minecraft.server.v1_16_R3", "PlayerConnection");
     private final Class<?> NETWORK_MANAGER = Reflex.getClass("net.minecraft.server.v1_16_R3", "NetworkManager");
 
-    private final Field CONNECTION = Reflex.getField(PLAYER_CONNECTION, "a", true);
-    private final Field CHANNEL = Reflex.getField(NETWORK_MANAGER, "j", true);
+    private final Field CONNECTION = Reflex.getField(PLAYER_CONNECTION, "networkManager", true);
+    private final Field CHANNEL = Reflex.getField(NETWORK_MANAGER, "channel", true);
 
     public Version_v1_16_R3(@NotNull SuperSign superSign) {
         this.superSign = superSign;
