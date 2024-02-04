@@ -1,6 +1,7 @@
 package me.cyrzu.git.supersign;
 
 import lombok.Getter;
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,11 @@ public class SuperSignBuilder {
 
     @Getter
     @NotNull
-    private ColorSign colorSign;
+    private ColorSign colorSign = ColorSign.OAK;
+
+    @Getter
+    @NotNull
+    private DyeColor dyeColor = DyeColor.BLACK;
 
     SuperSignBuilder(@NotNull SuperSign superSign, @NotNull Player player) {
         this.superSign = superSign;
@@ -66,6 +71,11 @@ public class SuperSignBuilder {
 
     public SuperSignBuilder setColorSign(@NotNull ColorSign colorSign) {
         this.colorSign = colorSign;
+        return this;
+    }
+
+    public SuperSignBuilder setDyeColor(@NotNull DyeColor dyeColor) {
+        this.dyeColor = dyeColor;
         return this;
     }
 

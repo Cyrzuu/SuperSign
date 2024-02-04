@@ -28,8 +28,8 @@ public class Version_v1_16_R3 implements VersionHandler {
 
     private final Map<UUID, Channel> channels = new HashMap<>();
 
-    private final Class<?> PLAYER_CONNECTION = Reflex.getClass("net.minecraft.server.network", "PlayerConnection");
-    private final Class<?> NETWORK_MANAGER = Reflex.getClass("net.minecraft.network", "NetworkManager");
+    private final Class<?> PLAYER_CONNECTION = Reflex.getClass("net.minecraft.server.v1_16_R3", "PlayerConnection");
+    private final Class<?> NETWORK_MANAGER = Reflex.getClass("net.minecraft.server.v1_16_R3", "NetworkManager");
 
     private final Field CONNECTION = Reflex.getField(PLAYER_CONNECTION, "a", true);
     private final Field CHANNEL = Reflex.getField(NETWORK_MANAGER, "j", true);
@@ -94,7 +94,7 @@ public class Version_v1_16_R3 implements VersionHandler {
         BlockPosition blockPosition = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
         PlayerConnection connection = (((CraftPlayer)player).getHandle()).playerConnection;
 
-        player.sendSignChange(location, signBuilder.getLines());
+        player.sendSignChange(location, signBuilder.getLines(), signBuilder.getDyeColor());
         PacketPlayOutOpenSignEditor openSign = new PacketPlayOutOpenSignEditor(blockPosition);
         connection.sendPacket(openSign);
 

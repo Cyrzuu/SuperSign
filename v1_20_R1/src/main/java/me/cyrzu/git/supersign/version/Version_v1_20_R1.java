@@ -104,7 +104,7 @@ public class Version_v1_20_R1 implements VersionHandler {
         BlockPosition blockPosition = new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ());
         PlayerConnection connection = (((CraftPlayer)player).getHandle()).c;
 
-        player.sendSignChange(location, signBuilder.getLines());
+        player.sendSignChange(location, signBuilder.getLines(), signBuilder.getDyeColor());
         PacketPlayOutOpenSignEditor openSign = new PacketPlayOutOpenSignEditor(blockPosition, true);
         connection.a(openSign);
 
