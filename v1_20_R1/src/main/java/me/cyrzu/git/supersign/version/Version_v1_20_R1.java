@@ -44,22 +44,18 @@ public class Version_v1_20_R1 implements VersionHandler {
 
     @Override
     public void onJoin(@NotNull Player player) {
-        player.sendMessage("wykonuje onjoin");
         Object handle = ((CraftPlayer) player).getHandle().c;
         Object fieldValue = Reflex.getFieldValue(handle, CONNECTION, Object.class);
         Channel channel = Reflex.getFieldValue(fieldValue, CHANNEL, Channel.class);
 
-        player.sendMessage("sprawdzam czy jestes w tym channelu...");
         if(channel.pipeline().get(SuperSign.ID) != null) {
             channels.put(player.getUniqueId(), channel);
             return;
         }
-        player.sendMessage("no niby nie jestes xd");
 
         SignPacket signPacket = new SignPacket(player, superSign);
         channel.pipeline().addAfter("decoder", SuperSign.ID, signPacket);
         channels.put(player.getUniqueId(), channel);
-        player.sendMessage("no to cie dodaje");
     }
 
     @Override
@@ -127,8 +123,10 @@ public class Version_v1_20_R1 implements VersionHandler {
 
         @Override
         protected void decode(ChannelHandlerContext ctx, PacketPlayInUpdateSign msg, List<Object> out) {
-            out.add(msg);
-            superSign.read(player, msg.d());
+            Bukkit.getScheduler().runTask(superSign.getInstance(), () -> {
+                out.add(msg);
+                superSign.read(player, msg.d());
+            });
         }
     }
 

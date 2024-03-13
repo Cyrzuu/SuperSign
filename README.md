@@ -1,7 +1,7 @@
 Wow coooooo 😮😎
 
 `
-1.16.5 - 1.20.4
+1.17 - 1.20.4
 `
 
 [![](https://jitpack.io/v/Cyrzuu/SuperSign.svg)](https://jitpack.io/#Cyrzuu/SuperSign)
@@ -16,7 +16,7 @@ Wow coooooo 😮😎
 <dependency>
     <groupId>com.github.Cyrzuu</groupId>
     <artifactId>SuperSign</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Cyrzuu:SuperSign:1.4'
+    implementation 'com.github.Cyrzuu:SuperSign:1.5'
 }
 ```
 \
@@ -72,7 +72,6 @@ public final class Class extends JavaPlugin {
                     })
                     .setLines(null, "^".repeat(16), "Set username")
                     .setColorSign(ColorSign.MANGROVE)
-                    .setDyeColor(DyeColor.CYAN)
                     .run();
 
             return false;

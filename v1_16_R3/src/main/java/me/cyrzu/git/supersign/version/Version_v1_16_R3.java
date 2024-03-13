@@ -8,6 +8,7 @@ import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.PacketPlayInUpdateSign;
 import net.minecraft.server.v1_16_R3.PacketPlayOutOpenSignEditor;
 import net.minecraft.server.v1_16_R3.PlayerConnection;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
@@ -117,8 +118,10 @@ public class Version_v1_16_R3 implements VersionHandler {
 
         @Override
         protected void decode(ChannelHandlerContext ctx, PacketPlayInUpdateSign msg, List<Object> out) {
-            out.add(msg);
-            superSign.read(player, msg.c());
+            Bukkit.getScheduler().runTask(superSign.getInstance(), () -> {
+                out.add(msg);
+                superSign.read(player, msg.c());
+            });
         }
     }
 

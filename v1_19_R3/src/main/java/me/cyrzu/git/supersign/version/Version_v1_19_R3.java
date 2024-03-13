@@ -119,8 +119,10 @@ public class Version_v1_19_R3 implements VersionHandler {
 
         @Override
         protected void decode(ChannelHandlerContext ctx, PacketPlayInUpdateSign msg, List<Object> out) {
-            out.add(msg);
-            superSign.read(player, msg.c());
+            Bukkit.getScheduler().runTask(superSign.getInstance(), () -> {
+                out.add(msg);
+                superSign.read(player, msg.c());
+            });
         }
     }
 
